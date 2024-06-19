@@ -6,9 +6,14 @@ services:
     container_name: sidecar-nginx
     restart: always
     volumes:
-      - ./custom-nginx.conf:/etc/nginx/nginx.conf
-      - ./init-script.sh:/docker-entrypoint.d/init-script.sh
+      - /etc/letsencrypt/live/citasdemo.wsbots.com.es/fullchain.pem:/etc/letsencrypt/live/citasdemo.wsbots.com.es/fullchain.pem
+      - /etc/letsencrypt/live/citasdemo.wsbots.com.es/privkey.pem:/etc/letsencrypt/live/citasdemo.wsbots.com.es/privkey.pem
+      - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "443:443"
       - "80:80"
-    command: [ "/bin/bash", "./docker-entrypoint.d/init-script.sh" ]
+    networks:
+      - chatbotinfocitas_network
+networks:
+  chatbotinfocitas_network:
+    external: true
