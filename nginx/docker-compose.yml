@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  sidecar:
+    image: nginx:1.26.0-alpine3.19-slim
+    container_name: sidecar-nginx
+    restart: always
+    volumes:
+      - ./custom-nginx.conf:/etc/nginx/nginx.conf
+      - ./init-script.sh:/docker-entrypoint.d/init-script.sh
+    ports:
+      - "443:443"
+      - "80:80"
+    command: [ "/bin/bash", "./docker-entrypoint.d/init-script.sh" ]
